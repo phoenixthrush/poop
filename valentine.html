@@ -10,6 +10,7 @@
             margin: 0 auto;
             height: 100svh;
             font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            overflow: hidden;
         }
 
         .container {
@@ -35,6 +36,10 @@
             padding: 1.25em;
             font-size: 1.25em;
         }
+
+        #rat-dancing-meme {
+            display: none;
+        }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 </head>
@@ -43,9 +48,10 @@
     <div class="container">
         <h1>Will you be my Valentine?</h1>
         <img src="https://img.freepik.com/premium-vector/cute-bear-holding-love-isolated-white-background_145832-361.jpg"
-            alt="Cute bear holding love isolated on white background">
+            alt="Cute bear holding love isolated on white background" id="bear">
+        <img src="https://media.tenor.com/V9XG4Lp_SN0AAAAi/rat-dance.gif" alt="Rat Dancing Meme" id="rat-dancing-meme">
         <div class="buttons">
-            <button type="submit" id="yes" onclick="launch_confetti()">YES!</button>
+            <button type="submit" id="yes" onclick="button_pressed()">YES!</button>
             <button type="submit" id="no">NO!</button>
         </div>
     </div>
@@ -71,7 +77,11 @@
         });
     </script>
     <script>
-        function launch_confetti() {
+        function button_pressed() {
+            document.getElementById('no').style.display = 'none';
+            document.getElementById('bear').style.display = 'none';
+            document.getElementById('rat-dancing-meme').style.display = 'block';
+
             var count = 200;
             var defaults = {
                 origin: { y: 0.7 }
@@ -127,8 +137,6 @@
                 confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
                 confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
             }, 400);
-
-            document.getElementById('no').style.display = 'none';
         }
     </script>
 </body>
