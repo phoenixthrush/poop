@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Day</title>
+    <style>
+        body {
+            margin: 0 auto;
+            height: 100svh;
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 5% 20% 0 20%;
+        }
+
+        .container img {
+            max-height: 100%;
+            max-width: 400px;
+        }
+
+        .buttons {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .buttons button {
+            padding: 1.25em;
+            font-size: 1.25em;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Will you be my Valentine?</h1>
+        <img src="https://img.freepik.com/premium-vector/cute-bear-holding-love-isolated-white-background_145832-361.jpg"
+            alt="Cute bear holding love isolated on white background">
+        <div class="buttons">
+            <button type="submit" id="yes" onclick="launch_confetti()">YES!</button>
+            <button type="submit" id="no">NO!</button>
+        </div>
+    </div>
+    <script>
+        const noBtn = document.getElementById('no');
+        const container = document.querySelector('.container');
+
+        noBtn.addEventListener('mouseenter', () => {
+            const containerRect = container.getBoundingClientRect();
+            const btnRect = noBtn.getBoundingClientRect();
+
+            const maxLeft = containerRect.width - btnRect.width;
+            const maxTop = containerRect.height - btnRect.height;
+
+            const left = Math.random() * maxLeft;
+            const top = Math.random() * maxTop;
+
+            noBtn.style.position = 'absolute';
+            noBtn.style.left = `${left}px`;
+            noBtn.style.top = `${top}px`;
+            noBtn.style.transition = 'left 0.2s, top 0.2s';
+            container.style.position = 'relative';
+        });
+    </script>
+    <script>
+        function launch_confetti() {
+            var count = 200;
+            var defaults = {
+                origin: { y: 0.7 }
+            };
+
+            function fire(particleRatio, opts) {
+                confetti({
+                    ...defaults,
+                    ...opts,
+                    particleCount: Math.floor(count * particleRatio)
+                });
+            }
+
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+            });
+            fire(0.2, {
+                spread: 60,
+            });
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                scalar: 1.2
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+            });
+
+            var duration = 5 * 1000;
+            var animationEnd = Date.now() + duration;
+            var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            var interval = setInterval(function () {
+                var timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                var particleCount = 50 * (timeLeft / duration);
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+            }, 400);
+
+            document.getElementById('no').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
