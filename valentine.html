@@ -35,9 +35,16 @@
         .buttons button {
             padding: 1.25em;
             font-size: 1.25em;
+            background-color: #ebebeb;
+            color: #242424;
+            border-radius: 15px;
         }
 
         #rat-dancing-meme {
+            display: none;
+        }
+
+        #rat-dance-meme-audio {
             display: none;
         }
     </style>
@@ -46,6 +53,8 @@
 
 <body>
     <div class="container">
+        <audio src="https://media.memesoundeffects.com/2025/01/Rat-Dance-Meme.mp3" id="rat-dance-meme-audio"
+            loop></audio>
         <h1>Will you be my Valentine?</h1>
         <img src="https://img.freepik.com/premium-vector/cute-bear-holding-love-isolated-white-background_145832-361.jpg"
             alt="Cute bear holding love isolated on white background" id="bear">
@@ -81,6 +90,7 @@
             document.getElementById('no').style.display = 'none';
             document.getElementById('bear').style.display = 'none';
             document.getElementById('rat-dancing-meme').style.display = 'block';
+            document.getElementById('rat-dance-meme-audio').play();
 
             var count = 200;
             var defaults = {
