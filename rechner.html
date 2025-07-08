@@ -23,7 +23,7 @@
         .form-group {
     display: flex;
     flex-direction: column;
-    gap: 15px; /* Adds space between each label/input pair */
+    gap: 15px;
     max-width: 400px;
     margin-bottom: 30px;
 }
@@ -90,9 +90,9 @@
 
                     if (jahresgewinn > 1000) {
                         let steuerpflichtiger_teil = (jahresgewinn - 1000).toFixed(2);
-                        ausgabe += ` → Gewinn dieses Jahres: ${jahresgewinn.toFixed(2)}€ → über Freibetrag: ${steuerpflichtiger_teil}€`;
+                        ausgabe += ` -> Gewinn dieses Jahres: ${jahresgewinn.toFixed(2)}€ -> über Freibetrag: ${steuerpflichtiger_teil}€`;
                     } else {
-                        ausgabe += ` → Gewinn dieses Jahres: ${jahresgewinn.toFixed(2)}€`;
+                        ausgabe += ` -> Gewinn dieses Jahres: ${jahresgewinn.toFixed(2)}€`;
                     }
 
                     outputText += ausgabe + "\n";
