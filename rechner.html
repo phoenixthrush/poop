@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ETF Rendite Rechner Online</title>
+    <style>
+        body {
+            background-color: #1e1e2e;
+            color: #cdd6f4;
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin: 5px 0;
+            font-size: 1rem;
+            color: #cdd6f4;
+            background-color: #6c7086;
+        }
+
+        .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Adds space between each label/input pair */
+    max-width: 400px;
+    margin-bottom: 30px;
+}
+
+        .output {
+            margin-top: 20px;
+            white-space: pre-wrap;
+            background: #313244;
+            padding: 15px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ETF Rendite Rechner</h1>
+
+    <div class="form-group">
+        <label for="years">Anlagedauer (Jahre):</label>
+        <input type="number" id="years" value="10" min="1" max="100"><br>
+
+        <label for="monthly">Monatlicher Sparbetrag (€):</label>
+        <input type="number" id="monthly" value="50" min="0"><br>
+
+        <label for="annuity">Monatliche Rendite (z.B. 1.008 = 0.8%):</label>
+        <input type="number" step="0.001" id="annuity" value="1.008"><br>
+
+        <label for="costs">Monatliche Gebühren (€):</label>
+        <input type="number" id="costs" value="1" min="0"><br>
+
+        <button onclick="calculate()">Berechnen</button>
+    </div>
+
+    <div class="output" id="output"></div>
+
+    <script>
+        function calculate() {
+            const YEARS = parseInt(document.getElementById("years").value);
+            const MONTHLY_SAVING = parseFloat(document.getElementById("monthly").value);
+            const MONTHLY_ANNUITIES = parseFloat(document.getElementById("annuity").value);
+            const MONTHLY_TRADE_COSTS = parseFloat(document.getElementById("costs").value);
+
+            let betrag = 0.00;
+            let betrag_vorjahr = 0.00;
+            let investiert_vorjahr = 0;
+            let outputText = "";
+
+            function monat(betrag) {
+                betrag += MONTHLY_SAVING;
+                betrag *= MONTHLY_ANNUITIES;
+                betrag -= MONTHLY_TRADE_COSTS;
+                return betrag;
+            }
+
+            for (let i = 1; i <= YEARS * 12; i++) {
+                betrag = monat(betrag);
+                let investiert = i * MONTHLY_SAVING;
+
+                if (i % 12 === 0) {
+                    let jahr = i / 12;
+                    let gewinn_gesamt = betrag - investiert;
+                    let jahresgewinn = (betrag - betrag_vorjahr) - (investiert - investiert_vorjahr);
+
+                    let ausgabe = `${jahr}. Jahr (${investiert.toFixed(2)}€ total investiert): ${betrag.toFixed(2)}€, Gesamtgewinn: ${gewinn_gesamt.toFixed(2)}€`;
+
+                    if (jahresgewinn > 1000) {
+                        let steuerpflichtiger_teil = (jahresgewinn - 1000).toFixed(2);
+                        ausgabe += ` → Gewinn dieses Jahres: ${jahresgewinn.toFixed(2)}€ → über Freibetrag: ${steuerpflichtiger_teil}€`;
+                    } else {
+                        ausgabe += ` → Gewinn dieses Jahres: ${jahresgewinn.toFixed(2)}€`;
+                    }
+
+                    outputText += ausgabe + "\n";
+
+                    betrag_vorjahr = betrag;
+                    investiert_vorjahr = investiert;
+                }
+            }
+
+            document.getElementById("output").textContent = outputText;
+        }
+    </script>
+</body>
+</html>
