@@ -4,8 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pages</title>
+    <title>Phoenixthrush Projects</title>
     <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary-color: #f8fafc;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --card-shadow-hover: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -13,63 +28,436 @@
         }
 
         body {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
             text-align: center;
-            height: 100svh;
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            padding: 20px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease-out;
         }
 
-        a {
-            display: block;
-            padding: 12px;
+        .header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .header p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 300;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-container {
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .search-box {
+            position: relative;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .search-input:focus {
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow-hover);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .project-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 1.5rem;
             text-decoration: none;
-            font-size: 1.2em;
-            font-weight: bold;
-            color: white;
-            background-color: #007bff;
-            border-radius: 6px;
-            transition: background 0.3s ease-in-out;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
         }
 
-        a:hover {
-            background-color: #0056b3;
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-bg);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            background: rgba(255, 255, 255, 1);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--gradient-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: 600;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .project-category {
+            display: none;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            margin-bottom: 0;
+        }
+
+        .project-tags {
+            display: none;
+        }
+
+        .tag {
+            display: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .footer a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .footer a:hover {
+            color: white;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        .hidden {
+            display: none !important;
         }
     </style>
 </head>
 
 <body>
-    <a href="http://www.phoenixthrush.com">Homepage</a>
-    <a href="https://www.phoenixthrush.com/gist-explorer/">gist-explorer</a>
-    <a href="http://www.phoenixthrush.com/blog/">Blog</a>
-    <a href="https://www.phoenixthrush.com/brainrot/">brainrot</a>
-    <a href="https://www.phoenixthrush.com/poop/valentine.html">Valentine</a>
-    <a href="login.html">Login</a>
-    <a href="https://www.phoenixthrush.com/16-9/site/">16-9</a>
-    <a href="https://www.phoenixthrush.com/windows-activator/site/">windows-activator</a>
-    <a href="https://www.phoenixthrush.com/AniWorld-Downloader/">AniWorld-Downloader</a>
-    <a href="https://www.phoenixthrush.com/wolf/">wolf</a>
-    <a href="https://www.phoenixthrush.com/HEEEEEEEEEEEEEY">HEEEEEEEEEEEEEY</a>
-    <a href="http://www.phoenixthrush.com/dont-press-the-button/">dont-press-the-button</a>
-    <a href="https://www.phoenixthrush.com/Love-Tester/">Love-Tester</a>
-    <a href="https://www.phoenixthrush.com/Shrimp-Detector/src/site/index.html">Shrimp-Detector</a>
-    <a href="https://www.phoenixthrush.com/Fake-Captive-Portal/hotspot-detect.html">Fake-Captive-Portal</a>
-    <a href="https://www.phoenixthrush.com/Node-Stranger-Chat/src/public/index.html">Node-Stranger-Chat</a>
-    <a href="https://www.phoenixthrush.com/tobias/">tobias</a>
-    <a href="https://www.phoenixthrush.com/durian/">durian</a>
-    <a href="http://www.phoenixthrush.com/minecraft/">minecraft</a>
-    <a href="https://www.phoenixthrush.com/HackMe/">HackMe</a>
-    <a href="https://www.phoenixthrush.com/Nekofy/popup.html">Nekofy</a>
-    <a href="https://www.phoenixthrush.com/spinning-chip/">spinning-chip</a>
-    <a href="https://www.phoenixthrush.com/Webview-Projects/">Webview-Projects (TODO)</a>
-    <a href="http://www.phoenixthrush.com/repo/">repo</a>
-    <a href="https://www.phoenixthrush.com/powershell-encoder">PowerShell Command Encoder</a>
-    <a href="https://github.com/phoenixthrush/blocklist/releases/download/master/unique.txt">Hosts File</a>
+    <div class="container">
+        <header class="header">
+            <h1>Phoenixthrush</h1>
+            <p>A collection of websites hosted using GitHub Pages</p>
+        </header>
+
+        <div class="search-container">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" class="search-input" placeholder="Search projects..." id="searchInput">
+            </div>
+        </div>
+
+        <div class="projects-grid" id="projectsGrid">
+            <a href="http://www.phoenixthrush.com" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">🏠</div>
+                    <div class="project-title">Homepage</div>
+                </div>
+                <div class="project-description">
+                    The main landing page
+                </div>
+            </a>
+
+            <a href="https://www.phoenixthrush.com/gist-explorer/" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">📝</div>
+                    <div class="project-title">Gist Explorer</div>
+                </div>
+                <div class="project-description">
+                    Interactive showcase of my GitHub gists with filtering, sorting, and live embedding features
+                </div>
+            </a>
+
+            <a href="http://www.phoenixthrush.com/blog/" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">📚</div>
+                    <div class="project-title">Blog</div>
+                </div>
+                <div class="project-description">
+                    Blogging Site
+                </div>
+            </a>
+
+            <a href="https://www.phoenixthrush.com/brainrot/" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">🧠</div>
+                    <div class="project-title">Brainrot</div>
+                </div>
+                <div class="project-description">
+                    Guess Italian Brainrot Characters
+                </div>
+            </a>
+
+            <a href="https://www.phoenixthrush.com/poop/valentine.html" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">💝</div>
+                    <div class="project-title">Valentine</div>
+                </div>
+                <div class="project-description">
+                    A playful Valentine's Day themed site
+                </div>
+            </a>
+
+            <a href="login.html" class="project-card">
+                <div class="project-header">
+                    <div class="project-icon">🔐</div>
+                    <div class="project-title">Login Demo</div>
+                </div>
+                <div class="project-description">
+                    A playful login page showcasing bad design concepts
+                </div>
+            </a>
+
+            <a href="https://www.phoenixthrush.com/Love-Tester/" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">💕</div>
+                    <div class="project-title">Love Tester</div>
+                </div>
+                <div class="project-description">
+                    Test your compatibility with someone special using this entertaining love calculator game
+                </div>
+            </a>
+
+            <a href="https://www.phoenixthrush.com/windows-activator/site/" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">🔑</div>
+                    <div class="project-title">Windows Activator</div>
+                </div>
+                <div class="project-description">
+                    A tool for Windows system activation with various other activations
+                </div>
+            </a>
+
+            <a href="https://www.phoenixthrush.com/AniWorld-Downloader/" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">📺</div>
+                    <div class="project-title">AniWorld Downloader</div>
+                </div>
+                <div class="project-description">
+                    AniWorld Downloader is a command-line tool for downloading and streaming content from aniworld.to
+                    and s.to
+                </div>
+            </a>
+
+            <a href="http://www.phoenixthrush.com/dont-press-the-button/" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">🚫</div>
+                    <div class="project-title">Don't Press The Button</div>
+                </div>
+                <div class="project-description">
+                    Pressing the button causes playful browser popups and distractions.
+                </div>
+            </a>
+
+            <a href="https://www.phoenixthrush.com/Shrimp-Detector/src/site/index.html"
+                class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">🦐</div>
+                    <div class="project-title">Shrimp Detector</div>
+                </div>
+                <div class="project-description">
+                    A mathematically and scientifically grounded computational framework for determining if you are a
+                    shrimp
+                </div>
+            </a>
+
+            <a href="https://www.phoenixthrush.com/HackMe/" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">🔓</div>
+                    <div class="project-title">HackMe</div>
+                </div>
+                <div class="project-description">
+                    Test your cybersecurity skills with various hacking challenges and puzzles
+                </div>
+            </a>
+
+            <a href="https://www.phoenixthrush.com/powershell-encoder" class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">⚡</div>
+                    <div class="project-title">PowerShell Encoder</div>
+                </div>
+                <div class="project-description">
+                    Encode and decode PowerShell commands
+                </div>
+            </a>
+
+            <a href="https://github.com/phoenixthrush/blocklist/releases/download/master/unique.txt"
+                class="project-card external-link">
+                <div class="project-header">
+                    <div class="project-icon">🛡️</div>
+                    <div class="project-title">Hosts File</div>
+                </div>
+                <div class="project-description">
+                    Curated hosts file for blocking ads, trackers, and malicious domains to enhance privacy
+                </div>
+            </a>
+        </div>
+
+        <footer class="footer">
+            <p>Made with ❤️ by <a href="https://github.com/phoenixthrush">Phoenixthrush</a></p>
+        </footer>
+    </div>
+
+    <script>
+        const searchInput = document.getElementById('searchInput');
+        const projectCards = document.querySelectorAll('.project-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            filterProjects(searchTerm);
+        });
+
+        function filterProjects(searchTerm) {
+            projectCards.forEach(card => {
+                const title = card.querySelector('.project-title').textContent.toLowerCase();
+                const description = card.querySelector('.project-description').textContent.toLowerCase();
+
+                const matchesSearch = searchTerm === '' ||
+                    title.includes(searchTerm) ||
+                    description.includes(searchTerm);
+
+                if (matchesSearch) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = Math.random() * 0.3 + 's';
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+
+        projectCards.forEach(card => {
+            observer.observe(card);
+        });
+    </script>
 </body>
 
 </html>
