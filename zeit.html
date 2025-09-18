@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100svh;
+            margin: 0 auto;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        input {
+            font-size: 1.25em;
+        }
+
+        #break {
+            font-size: 1.25em;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Wie lange muss ich arbeiten?</h1>
+        <input type="time" name="start" id="start" value="07:00">
+        <input type="time" name="end" id="end">
+        <div id="break"></div>
+    </div>
+    <script>
+        const [start, end, breakDiv] = ['start', 'end', 'break'].map(id => document.getElementById(id));
+
+        const DEFAULT_START = start.defaultValue; // Read from HTML value attribute
+
+        const TOTAL_MS = (7.5 * 60 + 45) * 60 * 1000; // 7.5h work + 45min break = 8h15m
+        const BREAK_AFTER_MS = 6 * 60 * 60 * 1000; // 6h work
+
+        const toTime = time => new Date(`2000-01-01T${time}`);
+        const format = date => date.toTimeString().slice(0, 5);
+
+        const isValidTime = time => {
+            if (!time) return false;
+            const [hours] = time.split(':').map(Number);
+            return hours >= 6 && hours < 20; // 6am to 8pm
+        };
+
+        const updateBreak = startTime => {
+            const breakTime = format(new Date(toTime(startTime).getTime() + BREAK_AFTER_MS)).replace(':', '.');
+            breakDiv.textContent = `Du musst spätestens um ${breakTime} Uhr eine Pause machen.`;
+        };
+
+        const showError = () => {
+            alert('Zeit muss zwischen 6 und 20 Uhr liegen.');
+            breakDiv.textContent = '';
+        };
+
+        const updateFromStart = () => {
+            if (!start.value) return;
+            if (!isValidTime(start.value)) {
+                showError();
+                start.value = '07:00';
+                end.value = '';
+                return;
+            }
+            const endTime = format(new Date(toTime(start.value).getTime() + TOTAL_MS));
+            if (!isValidTime(endTime)) {
+                showError();
+                start.value = '07:00';
+                end.value = '';
+                return;
+            }
+            end.value = endTime;
+            updateBreak(start.value);
+        };
+
+        const updateFromEnd = () => {
+            if (!end.value) return;
+            if (!isValidTime(end.value)) {
+                showError();
+                end.value = '';
+                start.value = '07:00';
+                return;
+            }
+            const startTime = format(new Date(toTime(end.value).getTime() - TOTAL_MS));
+            if (!isValidTime(startTime)) {
+                showError();
+                end.value = '';
+                start.value = '07:00';
+                return;
+            }
+            start.value = startTime;
+            updateBreak(start.value);
+        };
+
+        updateFromStart();
+        start.oninput = updateFromStart;
+        end.oninput = updateFromEnd;
+    </script>
+</body>
+
+</html>
