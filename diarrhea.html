@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I have a bad case of diarrhea</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: black;
+        }
+
+        #myVideo {
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #overlay {
+            position: fixed;
+            inset: 0;
+            background: black;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="overlay">Click anywhere to start</div>
+
+    <video id="myVideo" loop>
+        <source src="I have a bad case of diarrhea [ws5cSIdrd8I].mp4" type="video/mp4">
+        Your browser does not support HTML5 video.
+    </video>
+
+    <script>
+        const overlay = document.getElementById("overlay");
+        const video = document.getElementById("myVideo");
+
+        overlay.addEventListener("click", async () => {
+            overlay.style.display = "none";
+            video.style.display = "block";
+
+            try {
+                await video.play();
+            } catch (err) {
+                console.error("Playback failed:", err);
+            }
+        });
+    </script>
+
+</body>
+
+</html>
