@@ -13,13 +13,13 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: #1e211e;
-  --surface: #272b27;
-  --ink: #f1f0e7;
-  --muted: #aab0a4;
-  --line: #41463f;
+  --bg: #181b22;
+  --surface: #222630;
+  --ink: #edf0f5;
+  --muted: #a6aebb;
+  --line: #363d4b;
   --accent: #f58b71;
-  --soft: #30362f;
+  --soft: #2b313d;
 }
 
 * { box-sizing: border-box; }
