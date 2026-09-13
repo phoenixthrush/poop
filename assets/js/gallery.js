@@ -27,6 +27,7 @@ let projects = [...LOCAL_PROJECTS];
 const grid = document.getElementById('project-grid');
 const message = document.getElementById('load-message');
 const retry = document.getElementById('retry');
+const search = document.getElementById('project-search');
 
 function createCard(project, index) {
   const card = document.createElement('article');
@@ -84,8 +85,17 @@ function createCard(project, index) {
 }
 
 function render() {
-  grid.replaceChildren(...projects.map(createCard));
-  document.getElementById('project-count').textContent = `${projects.length} projects`;
+  const query = search.value.trim().toLowerCase();
+  const cards = projects.flatMap((project, index) =>
+    `${project.name} ${project.description}`.toLowerCase().includes(query)
+      ? [createCard(project, index)]
+      : []
+  );
+  grid.replaceChildren(...cards);
+  document.getElementById('project-count').textContent = query
+    ? `${cards.length} of ${projects.length} projects`
+    : `${projects.length} projects`;
+  document.getElementById('empty-state').hidden = cards.length > 0;
 }
 
 const CACHE_KEY = 'poop:github-pages:v2';
@@ -160,5 +170,6 @@ async function loadProjects() {
 }
 
 retry.addEventListener('click', loadProjects);
+search.addEventListener('input', render);
 render();
 loadProjects();
